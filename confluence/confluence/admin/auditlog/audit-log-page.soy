@@ -1,0 +1,171 @@
+{namespace Confluence.Templates.Auditing.Page}
+
+/**
+ * Audit log admin page
+ */
+{template .auditLogPage}
+{webResourceManager_requireResourcesForContext('audit.log')}
+<html>
+    <head>
+        <title>{getText('title.audit.log')}</title>
+    </head>
+    <body>
+        <content tag="selectedWebItem">auditlog</content>
+        <div class="audit-view">
+        <p>{getText('logged.event.intro.text')}<p>
+        {call aui.toolbar2.toolbar2}
+            {param content}
+                <div class="search-container">
+                    {call .searchComponent /}
+                </div>
+                {call .timeFilter /}
+                {call .settingsButton /}
+                {call .exportButton /}
+            {/param}
+        {/call}
+        </div>
+        <div>
+            {call .settingsDialog /}
+        </div>
+        <div id="aui-message-bar"></div>
+        <div class="audit-table-pagination top"></div>
+        <div id="audit-log-container"></div>
+        <div class="audit-table-pagination bottom"></div>
+    </body>
+</html>
+{/template}
+
+
+/**
+ * Search box with search icon
+ */
+{template .searchComponent}
+{call aui.form.form}
+    {param action: '#'/}
+    {param content}
+        {call aui.toolbar2.item}
+            {param item: 'primary'/}
+            {param content}
+                <div class="text-query-container">
+                    {call aui.form.input}
+                        {param id: 'searcher-query' /}
+                        {param type: 'text' /}
+                        {param extraClasses: 'search-entry' /}
+                        {param placeholderText: getText('logged.event.text.filter.placeholder') /}
+                    {/call}
+                </div>
+            {/param}
+        {/call}
+        {call aui.toolbar2.item}
+            {param item: 'primary'/}
+            {param content}
+                {call aui.buttons.button}
+                    {param text: '' /}
+                    {param type: 'subtle' /}
+                    {param extraClasses: 'search-button' /}
+                    {param iconType: 'aui' /}
+                    {param iconClass: 'aui-icon-small aui-iconfont-search' /}
+                    {param iconText: getText('logged.event.text.filter.desc') /}
+                {/call}
+            {/param}
+        {/call}
+    {/param}
+{/call}
+{/template}
+
+/**
+ * Time filter button and form
+ */
+{template .timeFilter}
+{call aui.buttons.button}
+    {param text}
+        {getText('logged.event.filter.button.text', getText('logged.event.filter.all'))}
+    {/param}
+    {param id: 'time-filter'/}
+    {param extraClasses: 'aui-button-subtle'/}
+    {param extraAttributes: ['aria-controls':'time-filter-dialog','data-aui-trigger':''] /}
+{/call}
+{call aui.inlineDialog2.inlineDialog2}
+    {param id: 'time-filter-dialog' /}
+    {param extraAttributes: ['data-aui-persistent' : 'true'] /}
+    {param alignment: 'bottom left' /}
+    {param respondsTo: 'toggle' /}
+    {param content}
+        {call Confluence.Templates.Auditing.Filters.dateFilter /}
+    {/param}
+{/call}
+{/template}
+
+/**
+ * Settings button
+ */
+{template .settingsButton}
+{call aui.toolbar2.item}
+    {param item: 'secondary'/}
+    {param content}
+        {call aui.buttons.button}
+            {param id: 'auditing-retention-setting'/}
+            {param extraClasses: 'aui-button-subtle'/}
+            {param text}{sp}{getText('settings.name')}{/param}
+            {param iconType: 'custom'/}
+            {param iconClass: 'aui-icon aui-icon-small aui-iconfont-configure'/}
+        {/call}
+    {/param}
+{/call}
+{/template}
+
+/**
+ * Export button
+ */
+{template .exportButton}
+{call aui.toolbar2.item}
+    {param item: 'secondary'/}
+    {param content}
+        {call aui.buttons.button}
+            {param id: 'auditing-export-data'/}
+            {param extraClasses: 'aui-button-subtle'/}
+            {param text}{sp}{getText('title.export')}{/param}
+            {param iconType: 'custom'/}
+            {param iconClass: 'aui-icon aui-icon-small aui-iconfont-export'/}
+        {/call}
+        {call aui.form.form}
+            {param id: 'export-form' /}
+            {param method: 'GET' /}
+            {param action: contextPath() + '/rest/api/audit/export'/}
+            {param content}
+                {call aui.form.submit}
+                    {param id: 'auditing-export-data-submit'/}
+                    {param extraClasses: 'hidden'/}
+                    {param text}{sp}{getText('title.export')}{/param}
+                {/call}
+            {/param}
+        {/call}
+    {/param}
+{/call}
+{/template}
+/**
+ * Settings Dialog
+ */
+{template .settingsDialog}
+{call aui.dialog.dialog2}
+    {param id: 'settings-dialog'/}
+    {param titleText: getText('logged.event.setting.title') /}
+    {param content: '' /}
+    {param footerActionContent}
+        <span class="aui-icon aui-icon-wait hidden"></span>
+        {call aui.buttons.buttons}
+            {param content}
+                {call aui.form.submit}
+                    {param id: 'auditing-retention-submit'/}
+                    {param text: getText('add.name') /}
+                {/call}
+                {call aui.buttons.button}
+                    {param id: 'auditing-retention-cancel'/}
+                    {param type: 'link'/}
+                    {param text: getText('cancel.name') /}
+                {/call}
+            {/param}
+        {/call}
+    {/param}
+{/call}
+{/template}

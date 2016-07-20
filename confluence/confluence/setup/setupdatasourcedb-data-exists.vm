@@ -1,0 +1,17 @@
+<html>
+	<head>
+		<title>$action.getText("title.setup.datasource.database.data.exists")</title>
+	</head>
+
+	<body>
+        #parse ("/setup/analytics-data.vm")
+        #parse ( "/template/includes/actionerrors.vm" )
+	   
+		<p>$action.getText("setup.datasource.database.data.exists")</p>
+
+        <form id="setup-db-fail-form" class="aui">
+            <a href="$req.contextPath/setup/setupdatasourcedb-start.action?database=$database&forceOverwriteExistingData=true&datasourceName=$generalUtil.urlEncode($datasourceName)" class="setup-db-fail-button">#setupButton("", "", $action.getText("setup.datasource.overwrite.existing.data"), "", false)</a>
+            <a href="$req.contextPath/setup/setupdb-start.action?database=$database" class="setup-db-fail-button aui-button aui-button-link">$action.getText("restart.database.setup")</a>
+        </form>
+	</body>
+</html>

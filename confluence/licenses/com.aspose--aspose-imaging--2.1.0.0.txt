@@ -1,0 +1,35 @@
+Notices and Licenses required for redistribution of Aspose.Imaging for Java library
+
+TABLE OF CONTENTS
+
+1. Aspose copyright notice
+2. Thirdparty licenses
+
+
+NOTICES AND LICENSES
+
+1. Aspose copyright notice
+
+Copyright (c) 2008-2014 Aspose Pty Ltd. All Rights Reserved.
+
+http://www.aspose.com/
+
+This product licensed (http://www.aspose.com/corporate/purchase/end-user-license-agreement.aspx) under the terms of the Aspose End User License Agreement.
+
+___________________________________________________________________
+
+2. Thirdparty licenses
+
+2.1. This product includes software(s):
+
+a) Some files from 'Mono Class Libraries' were ported from C# to Java and included to this library without major changes. 
+The 'Mono Class Libraries' developed by 'Mono' (http://mono-project.com/) and licensed (http://www.mono-project.com/FAQ:_Licensing) under the terms of the MIT X11 license.
+
+b) Retrotranslator runtime and backport classes in aspose-imaging-x.x.x.x-jdk14.jar.
+The 'Retrotranslator' developed by 'Taras Puchko' (http://retrotranslator.sourceforge.net) and licensed (http://retrotranslator.sourceforge.net/#license) under the terms of the BSD-like license.
+
+
+2.2. Transitive dependencies of this project:
+ - no dependencies
+
+___________________________________________________________________

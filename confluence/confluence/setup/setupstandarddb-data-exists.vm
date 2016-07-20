@@ -1,0 +1,17 @@
+<html>
+	<head>
+		<title>$action.getText("title.setup.datasource.database.data.exists")</title>
+	</head>
+
+	<body>
+        #parse ("/setup/analytics-data.vm")
+        #parse ( "/template/includes/actionerrors.vm" )
+	
+		<p>$action.getText("setup.datasource.database.data.exists")</p>
+
+        <form id="setup-db-fail-button-form" class="aui">
+            <a href="$req.contextPath/setup/setupstandarddb.action?database=$database&forceOverwriteExistingData=true&dbConfigInfo.driverClassName=${dbConfigInfo.driverClassName}&dbConfigInfo.databaseUrl=${generalUtil.urlEncode($dbConfigInfo.databaseUrl)}&dbConfigInfo.userName=${generalUtil.urlEncode($dbConfigInfo.userName)}&dbConfigInfo.password=${generalUtil.urlEncode($dbConfigInfo.password)}&dbConfigInfo.dialect=${dbConfigInfo.dialect}" class="setup-db-fail-button">#setupButton("", "", $action.getText("setup.datasource.overwrite.existing.data"), "", false)</a>
+            <a href="$req.contextPath/setup/setupdb-start.action?database=$database" class="setup-db-fail-button aui-button aui-button-link">$action.getText("restart.database.setup")</a>
+        </form>
+	</body>
+</html>

@@ -1,0 +1,17 @@
+.setup form.aui#licenseform {
+    margin-right: 24px;
+}
+
+.setup form.aui#licenseform .long-field{
+    width: 590px;
+    max-width: 590px;
+}
+
+.setup form.aui label{
+    width: 140px;
+}
+
+#licenseform .eval-license-back-button-have-key {
+    float: right;
+    margin-left: 10px;
+}

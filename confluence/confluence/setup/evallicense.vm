@@ -1,0 +1,65 @@
+<html>
+<head>
+    <title>$action.getText("setup.evallicense.title")</title>
+    $webResourceManager.requireResourcesForContext("setup.eval-license")
+</head>
+
+<body>
+    #parse ("/setup/analytics-data.vm")
+    #parse ("/setup/setup-button.vm")
+    #parse ("/template/includes/bundle-selector.vm")
+
+    <script type="text/template" id="loading-spinner-template">
+        <div class="loading-spinner">
+            <span class='aui-icon aui-icon-wait'></span> <%= message %>
+        </div>
+    </script>
+
+    #parse ("/template/includes/actionerrors.vm")
+    #renderMetadatum("dev-mode" $action.devMode.toString())
+
+    <form id="importLicenseForm" method="POST" action="doevallicense.action" class="aui license-form">
+        <input type="hidden" id="selectedPluginKeys" name="selectedPluginKeys" value="$action.getSelectedPluginKeys()"></input>
+
+        <!-- License for Confluence -->
+        <h3>$action.getText('setup.evallicense.importlicense.header')</h3>
+        #set ($evalLicenseUrl = $action.getText("url.atlassian.generate.eval.license", ['Confluence','confLicenseString',$generalUtil.versionNumber, $generalUtil.buildNumber, $action.serverId, "$generalUtil.lookupDomainName($req)/setup/evallicense.action"]))
+
+        <div class="import-confluence-license">
+            #bodytag( "TextField" "label='server.id'" "name='serverId'" "theme='aui'")
+            #param ("disabled" "true")
+            #end
+            #bodytag ("Textarea" "label='license.confluence.key'" "name='confLicenseString'" "rows=3" "theme='aui'" "cssClass='aui textarea long-field'")
+            #param ("id" "confLicenseString")
+            #end
+            <div class="field-group">
+                $action.getText('license.confluence.generate.link',[$evalLicenseUrl])
+            </div>
+        </div>
+
+        <!-- Licenses for addons -->
+        <h3>$action.getText('setup.evallicense.addons.header')</h3>
+        $action.getText("setup.evallicense.addons.hint")
+
+        <div class="import-bundle-plugins-license">
+            #renderBundleSelector("importLicenseForm", "selectedPluginKeys", true)
+
+            #foreach ($plugin in $bundledPlugins)
+            <div class="license-form-expander hidden" bundle-id="$plugin.key">
+                #bodytag ("Textarea" "label='$action.getText('setup.evallicense.addons.licenseFor', [$action.getText($plugin.label)])'" "name='$plugin.key'" "value='$plugin.license'" "rows=3" "theme='aui'" "cssClass='aui textarea long-field'")
+                    #param ("id" $plugin.key)
+                #end
+                #set ($licenseUrl = $action.getText("url.atlassian.generate.eval.license", [$plugin.key,$plugin.key,$generalUtil.versionNumber, $generalUtil.buildNumber, $action.serverId, "$generalUtil.lookupDomainName($req)/setup/evallicense.action"]))
+                <div class="field-group">
+                    $action.getText($plugin.generateLicenseLink,[$licenseUrl])
+                </div>
+            </div>
+            #end
+        </div>
+
+        <!-- Navigations -->
+        <a href="$req.contextPath/setup/setupstart.action" class="eval-license-back-button-have-key aui-button aui-button-link">$action.getText('setup.back')</a>
+        #setupSubmitButton("setup-next-button", "setup-next-button", "$action.getText('setup.next')", "setup-next-button", false)
+    </form>
+</body>
+</html>

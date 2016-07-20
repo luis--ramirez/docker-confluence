@@ -1,0 +1,65 @@
+.setup-start-form {
+    margin: 10px;
+}
+.setup-start-group .confluence-setup-choice-box {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: table;
+    margin-bottom: 20px;
+    width: 100%;
+    padding-left: 20px;
+    height: 150px;
+}
+
+.setup-start-group .confluence-setup-choice-cell {
+    display: table-cell;
+    padding: 0px 20px 20px 0;
+    vertical-align: middle;
+}
+.setup-start-group .confluence-setup-choice-box-header {
+    border: none;
+    padding-bottom: 0;
+    line-height: 1em;
+}
+.setup-start-group .confluence-setup-choice-box-description {
+    margin-bottom: 0;
+    padding-left: 36px;
+}
+.setup-start-group .confluence-setup-choice-box:hover,
+.setup-start-group .confluence-setup-choice-box.confluence-setup-choice-box-active {
+    background: #E6EFF8;
+    border-color: #CCD9EA;
+}
+
+.setup-start-group .plugin-disabled-icon,
+.setup-start-group .plugin-enabled-icon{
+    padding-top: 30px;
+    padding-right: 10px;
+    width: 24px;
+    float: left;
+}
+.setup-start-group .plugin-enabled-icon{
+    display: none;
+}
+.setup-start-group .confluence-setup-choice-box-active .plugin-disabled-icon{
+    display: none;
+}
+.setup-start-group .confluence-setup-choice-box-active .plugin-enabled-icon{
+    display: block;
+}
+
+#cluster-logo-message {
+    padding: 74px;
+    margin-top: 0;
+}
+
+#cluster-migration-info {
+    padding: 0 0 20px 145px;
+}
+
+.cluster-welcome-div #action-messages {
+    padding: 0 109px;
+}
+

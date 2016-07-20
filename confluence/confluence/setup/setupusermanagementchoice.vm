@@ -1,0 +1,29 @@
+<html>
+	<head>
+		<title>$action.getText("title.setup.usermanagement.choice")</title>
+    </head>
+	<body>
+        #parse ("/setup/analytics-data.vm")
+        #parse ("/setup/setup-button.vm")
+        <p>$action.getText("setup.step.description.usermanagementchoice")</p>
+        
+        <h2>$action.getText('internal.usermanagement')</h2>
+        <p>$action.getText("internal.usermanagement.description")</p>
+        <p>$action.getText("internal.ldap.usermanagement.description")<p>
+        <div class="aui-panel">
+            <form method="POST" name="internaluser" action="setupusermanagementchoice.action" class="aui">
+                #tag( "Hidden" "name='userManagementChoice'" "value='internal'")
+                #setupSubmitButton("internal", "internal", "$action.getText('internal.user.submit')", "", false)
+            </form>
+        </div>
+        
+        <h2>$action.getText('jaacs.usermanagement')</h2>
+        <p>$action.getText("jaacs.usermanagement.description")</p>
+        <div class="aui-panel">
+            <form method="POST" name="jaacsuser" action="setupusermanagementchoice.action">
+                #tag( "Hidden" "name='userManagementChoice'" "value='jaacs'")
+                #setupSubmitButton("jaacs", "jaacs", "$action.getText('jaacs.user.submit')", "", false)
+            </form>
+        </div>
+    </body>
+</html>

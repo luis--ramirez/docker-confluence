@@ -1,0 +1,60 @@
+#* @vtlvariable name="action" type="com.atlassian.confluence.setup.actions.SetupStartAction" *#
+#if ($action.FromScratch)
+    <div class="setup-hint">$action.getText("setup.start.hint")</div>
+    <div class="aui-item confluence-setup-choice-box" setup-type="install">
+        <div class="confluence-setup-choice-cell">
+            <img class="plugin-enabled-icon" src="$req.contextPath/setup/images/icon_setup_single_choice_enabled_24.png"/>
+            <img class="plugin-disabled-icon" src="$req.contextPath/setup/images/icon_setup_single_choice_disabled_24.png"/>
+            <h2 class="confluence-setup-choice-box-header">$action.getText("setup.start.eval.heading")</h2>
+            <p class="confluence-setup-choice-box-description">
+                $action.getText("setup.start.eval.wizard")
+            </p>
+        </div>
+    </div>
+
+    <div class="aui-item confluence-setup-choice-box" setup-type="custom">
+        <div class="confluence-setup-choice-cell">
+            <img class="plugin-enabled-icon" src="$req.contextPath/setup/images/icon_setup_single_choice_enabled_24.png"/>
+            <img class="plugin-disabled-icon" src="$req.contextPath/setup/images/icon_setup_single_choice_disabled_24.png"/>
+            <h2 class="confluence-setup-choice-box-header">
+                $action.getText("setup.start.custom.heading")
+            </h2>
+            <p class="confluence-setup-choice-box-description">
+                $action.getText("setup.start.custom.wizard")
+            </p>
+        </div>
+    </div>
+
+    <input type="hidden" id="setupType" name="setupType" value=""></input>
+
+    #setupNextButton(false)
+
+#elseif($action.isClusterToStandalone())
+    ## downgrade from cluster
+    <div class="cluster-welcome-div">
+        <input type="hidden" id="setupType" name="setupType" value="cluster.to.standalone"/>
+        <h2 id="cluster-logo-message">$action.getText("setup.start.cluster.downgrade.heading")</h2>
+        <div id="cluster-migration-info">
+            <p>$action.getText("setup.start.cluster.downgrade.wizard")</p>
+        </div>
+
+        #parse ("/template/includes/actionerrors.vm")
+
+        #if ($action.messageHolder.actionWarnings.size() == 0)
+            #setupSubmitButton("", "setupTypeCustom", "$action.getText('setup.start.cluster.downgrade.start-setup')", "start-setup-button", false)
+        #end
+    </div>
+#else
+    ## upgrade to cluster
+    <div class="cluster-welcome-div">
+        <input type="hidden" id="setupType" name="setupType" value="standalone.to.cluster"/>
+        <h2 id="cluster-logo-message">$action.getText("setup.start.cluster.upgrade.heading")</h2>
+        <div id="cluster-migration-info">
+            <p>$action.getText("setup.start.cluster.upgrade.wizard")</p>
+        </div>
+
+        #parse ("/template/includes/actionerrors.vm")
+
+        #setupSubmitButton("", "setupTypeCustom", "$action.getText('setup.start.cluster.upgrade.start-setup')", "start-setup-button", false)
+    </div>
+#end

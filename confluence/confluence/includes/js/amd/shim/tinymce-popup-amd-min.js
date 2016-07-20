@@ -1,0 +1,1 @@
+define("tinymce/popup",function(){return"undefined"===typeof tinyMCEPopup?{}:tinyMCEPopup});

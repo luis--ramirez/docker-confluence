@@ -1,0 +1,45 @@
+<html>
+<head>
+    <title>$action.getText("title.setup.dbchoose")</title>
+</head>
+<body>
+    #parse ("/setup/analytics-data.vm")
+    #parse ("/setup/setup-button.vm")
+    #parse ("/template/includes/actionerrors.vm" )
+
+    <p>$action.getText("setup.step.description.dbchoice")</p>
+
+    <h2>$action.getText('external.database')</h2>
+
+    <form method="POST" name="standardform" action="setupdbchoice.action" class="aui">
+        <p>$action.getText("external.description")</p>
+        <div class="aui-panel">
+            #tag("Select" "label='db.choice.choose'" "name='dbChoiceSelect'" "value=dbchoice" "list=databases" "listKey=key" "listValue=value" "theme='simple'" "cssClass='select db-choice'")
+            #setupSubmitButton("select-db", "standard", "$action.getText('external.submit')", "setupdbchoice-button", false)
+
+            #if($fieldErrors.get('mySQLError'))
+                #set($docLink = $action.getDocLink("help.mysql.database.setup"))
+                <div id="mysql-db-choice-error" class="aui-message error">
+                    <p class="title">$action.getText("unbundled.mysql.driver.error.title")</p>
+                    <p>$action.getText("unbundled.mysql.driver.error", ["$docLink"])</p>
+                </div>
+            #end
+        </div>
+    </form>
+
+    #if ($action.isThisNodeClustered())
+    <p>$action.getText("clustered.so.no.embedded.description")</p>
+    #else
+
+    <h2>$action.getText('embedded.database')</h2>
+
+    <form method="POST" name="embeddedform" action="setupembeddeddb-default.action" class="aui">
+        #tag( "Hidden" "name='dbChoice'" "value='embedded'")
+        <p>$action.getText("embedded.description")</p>
+        <p class="warningPanel">$action.getText("embedded.warning")</p>
+
+        #setupSubmitButton("", "embedded", "$action.getText('embedded.submit')", "setupdbchoice-button", false)
+    </form>
+    #end
+</body>
+</html>

@@ -1,0 +1,183 @@
+{namespace Confluence.Templates.Auditing}
+
+/**
+ * Renders the audit log table
+ */
+{template .auditLogTable}
+{call aui.table}
+    {param id: 'audit-log-table' /}
+    {param extraClasses: 'auditing-logs' /}
+    {param theadContent}
+        <tr>
+            <th class="aui-table-column-unsortable normal-cell">{getText('logged.event.date')}</th>
+            <th class="aui-table-column-unsortable wide-cell">{getText('logged.event.author')}</th>
+            <th class="aui-table-column-unsortable wide-cell">{getText('logged.event.category')}</th>
+            <th class="aui-table-column-unsortable wide-cell">{getText('logged.event.change.summary')}</th>
+            <th class="aui-table-column-unsortable wide-cell">{getText('logged.event.changed.object')}</th>
+            <th class="aui-table-column-unsortable xsmall-cell">{getText('logged.event.actions')}</th>
+        </tr>
+    {/param}
+    {param content: '' /}
+{/call}
+{/template}
+
+/**
+ * Renders a row in the audit log table
+ * @param record
+ */
+{template .auditLogTableRow}
+<tr class="audit-record-row">
+    <td class="normal-cell auditing-date">{$record.creationDate}</td>
+    <td class="wide-cell author">
+        {if $record.author.username}
+            <a class="confluence-userlink" data-username="{$record.author.username}" href="{contextPath()}/display/~{$record.author.username}">
+                {$record.author.displayName}
+            </a>
+        {else}
+            <span>{$record.author.displayName}</span>
+        {/if}
+    </td>
+    <td class="wide-cell category">{$record.category}</td>
+    <td class="wide-cell summary">
+        <p>{$record.summary}</p>
+    </td>
+    <td class="wide-cell object">
+        {if $record.affectedObject.objectType}
+            <span class="object-name">{$record.affectedObject.objectType}: {$record.affectedObject.name}</span>
+        {/if}
+    </td>
+    <td class="xsmall-cell">
+        <span class="aui-button aui-button-link show-details">{getText('logged.event.see.more')}</span>
+    </td>
+</tr>
+{/template}
+
+/**
+* Renders a detailed row in the audit log table
+* @param record
+*/
+{template .recordDetails}
+<tr class="record-row-details">
+    <td class="auditing-record-details" colspan="6">
+        <div class="aui-page-panel-inner">
+            <section class="aui-page-panel-content">
+                <div class="content-section-wrapper">
+                    <div class="record-key">
+                        <p class="detail-header">{getText('logged.event.details.title')}</p>
+                    </div>
+                    <div class="record-key">{getText('logged.event.details.ip')}<div class="record-value">{$record.remoteAddress}</div></div>
+                    {if ($record.description and $record.description != '')}
+                        <div class="record-key">{getText('logged.event.details.desc')}<div class="record-value">{$record.description}</div></div>
+                    {/if}
+                    {foreach $cv in $record.changedValues}
+                        <div class="record-key">{$cv.name}:
+                            <div class="record-value">
+                                {if ($cv.oldValue and $cv.oldValue != '')}
+                                    <span class="delta-from">{$cv.oldValue}</span>
+                                {/if}
+                                {if ($cv.newValue and $cv.newValue != '')}
+                                    <span class="delta-to">{$cv.newValue}</span>
+                                {/if}
+                            </div>
+                        </div>
+                    {/foreach}
+                </div>
+            </section>
+            <aside class="aui-page-panel-sidebar">
+                <div class="associated-items">
+                    {if $record.associatedObjects.length < 1}
+                         <p class="detail-header">{getText('logged.event.associated.objects.none')}</p>
+                    {else}
+                        <p class="detail-header">{getText('logged.event.associated.objects')}</p>
+                        <ul>
+                        {foreach $object in $record.associatedObjects}
+                        <li>
+                            {$object.objectType}: {$object.name}
+                        </li>
+                        {/foreach}
+                        </ul>
+                    {/if}
+                </div>
+            </aside>
+        </div>
+    </td>
+</tr>
+{/template}
+
+/**
+ * Settings dialog content.
+ *
+ * @param currentRetention
+ */
+{template .settingsDialogContent}
+{call aui.form.form}
+    {param id: 'auditing-settings-form' /}
+    {param action: '#' /}
+    {param content}
+        {call aui.form.fieldGroup}
+            {param content}
+                {call aui.form.label}
+                    {param content: getText('logged.event.setting.label') /}
+                {/call}
+                {call aui.form.input}
+                    {param name: 'time-input' /}
+                    {param type: 'number' /}
+                    {param extraClasses: ['time-unit-value', 'short-field', 'text'] /}
+                    {param extraAttributes: ['min': '1', 'step': '1', 'value': $currentRetention.number] /}
+                {/call}
+                {call .dateUnits}
+                    {param currentTimeUnit: $currentRetention.units /}
+                {/call}
+                {call aui.form.fieldDescription}
+                    {param text: getText('logged.event.setting.desc') /}
+                {/call}
+            {/param}
+        {/call}
+    {/param}
+{/call}
+{/template}
+
+/**
+ * Drop down list of time units
+ *
+ * @param currentTimeUnit
+ */
+{template .dateUnits}
+{call aui.form.select}
+    {param name: 'time-input' /}
+    {param extraClasses: 'time-unit' /}
+    {param options: [['text': getText('core.dateutils.days'), 'value': 'DAYS', 'selected': $currentTimeUnit == 'DAYS'],
+                     ['text': getText('core.dateutils.months'), 'value': 'MONTHS', 'selected': $currentTimeUnit == 'MONTHS'],
+                     ['text': getText('core.dateutils.years'), 'value': 'YEARS', 'selected': $currentTimeUnit == 'YEARS']] /}
+{/call}
+{/template}
+
+/**
+ * Renders pagination
+ * @param currentPage current page that we are viewing
+ * @param startPage start page to display in pagination
+ * @param endPage end page to display in pagination
+ */
+{template .paginationFooter}
+<ol class="aui-nav aui-nav-pagination">
+    <li class="aui-nav-previous">
+        <a href="#" class="auditing-page-prev" {if $currentPage == 1}aria-disabled="true"{/if}>
+            {getText('aui.prev.name')}
+        </a>
+    </li>
+    {for $page in range($startPage, $endPage + 1)}
+        {if $currentPage == $page}
+            <li class="aui-nav-selected">{$page}</li>
+        {else}
+            <li>
+                <a href="#" class="auditing-page-link">{$page}</a>
+            </li>
+        {/if}
+    {/for}
+    <li class="aui-nav-next">
+        <a href="#" class="auditing-page-next" {if $currentPage == $endPage}aria-disabled="true"{/if}>
+            {getText('aui.next.name')}
+        </a>
+    </li>
+</ol>
+{/template}

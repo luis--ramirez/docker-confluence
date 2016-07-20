@@ -1,0 +1,40 @@
+.wiki-content {
+
+  .confluence-embedded-file-wrapper {
+    max-width: 100%;
+
+    .confluence-embedded-image {
+      display: block; // for no bottom space
+      margin-left: 2px;
+      margin-right: 2px;
+      max-width: calc(~"100% - 4px");
+
+      // image will push its parent.
+      &[height],
+      &[width] {
+        max-width: none;
+      }
+    }
+
+    &.confluence-embedded-manual-size {
+       max-width: none;
+    }
+  }
+
+  .image-left-wrapper {
+    float: left;
+    margin: 0 10px 10px 0;
+  }
+
+  .image-center-wrapper {
+    display: table; // so don't need width and height information
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .image-right-wrapper {
+    float: right;
+    margin: 0 0 10px 10px;
+  }
+
+}

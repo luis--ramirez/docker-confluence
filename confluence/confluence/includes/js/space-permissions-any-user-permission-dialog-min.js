@@ -1,0 +1,2 @@
+define("confluence/space-permissions-any-user-permission-dialog",["jquery","ajs"],function(b,c){return{create:function(){var a=new c.ConfluenceDialog({id:"edit-any-user-view-permission-dialog",width:500,height:300});a.addHeader(b(".any-user-perm-dialog-title").text());a.addPanel("Panel 1",b(".any-user-perm-dialog-contents").html());a.addSubmit(c.I18n.getText("space.permissions.any.user.dialog.disable.button"),function(){b("form[name='disableanyuserpermission']").submit();a.hide()});a.addCancel(c.I18n.getText("cancel.name"),
+function(){a.hide()});return a}}});

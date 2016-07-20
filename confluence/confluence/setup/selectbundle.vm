@@ -1,0 +1,22 @@
+<html>
+<head>
+    <title>$action.getText("setup.selectbundle.title")</title>
+    $webResourceManager.requireResourcesForContext("setup.select-bundle")
+</head>
+
+<body>
+    #parse ("/setup/analytics-data.vm")
+    #parse ("/setup/setup-button.vm")
+    #parse ("/template/includes/actionerrors.vm")
+    #parse ("/template/includes/bundle-selector.vm")
+
+<form id="selectBundlePluginsForm" method="POST" action="doselectbundle.action" class="aui ajs-dirty-warning-exempt">
+    <div class="setup-hint">$action.getText("setup.selectbundle.buy.hint")</div>
+
+    #renderBundleSelector("selectBundlePluginsForm", "", false)
+
+    <a href="$req.contextPath/setup/setupstart.action" class="select-bundle-back-button aui-button aui-button-link">$action.getText('setup.back')</a>
+    #setupNextButton(false)
+</form>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<html>
+<head>
+    <title>$action.getText("setup.license.title")</title>
+	$webResourceManager.requireResourcesForContext("setup.setup-license")
+</head>
+
+<body>
+    #parse ("/setup/analytics-data.vm")
+	#parse ("/setup/setup-button.vm")
+    <form method="POST" action="dosetuplicense.action" name="licenseform" id="licenseform" class="aui">
+        <input type="hidden" id="selectedPluginKeys" name="selectedPluginKeys" value="$action.getSelectedPluginKeys()"/>
+	    #parse ("/template/includes/actionerrors.vm")
+	        
+	    #set ($evalLicenseUrl = $action.getText("url.atlassian.generate.eval.license", ['Confluence','confLicenseString',$generalUtil.versionNumber, $generalUtil.buildNumber, $action.serverId, "$generalUtil.lookupDomainName($req)/setup/setuplicense.action"]))
+
+        <div class="setup-hint">$action.getText("setup.license.hint")</div>
+
+	    #bodytag( "TextField" "label='server.id'" "name='serverId'" "theme='aui'")
+	        #param ("disabled" "true")
+	    #end
+
+		#bodytag ("Textarea" "label='license.confluence.key'" "name='confLicenseString'" "rows=3" "theme='aui'" "cssClass='aui textarea long-field'")
+			#param ("id" "confLicenseString")
+		#end
+        <div class="field-group">
+			$action.getText('license.confluence.generate.link',[$evalLicenseUrl])
+        </div>
+
+		#foreach ($plugin in $selectedPlugins)
+			#bodytag ("Textarea" "label='$action.getText($plugin.label)'" "name='$plugin.key'" "value='$plugin.license'" "rows=3" "theme='aui'" "cssClass='aui textarea long-field'")
+				#param ("id" $plugin.key)
+			#end
+			#set ($licenseUrl = $action.getText("url.atlassian.generate.eval.license", [$plugin.key,$plugin.key,$generalUtil.versionNumber, $generalUtil.buildNumber, $action.serverId, "$generalUtil.lookupDomainName($req)/setup/setuplicense.action"]))
+        	<div class="field-group">
+				$action.getText($plugin.generateLicenseLink,[$licenseUrl])
+			</div>
+		#end
+
+        <a href="$req.contextPath/setup/selectbundle.action" class="eval-license-back-button-have-key aui-button aui-button-link">$action.getText('setup.back')</a>
+		#setupSubmitButton("setupTypeCustom", "setupTypeCustom", "$action.getText('setup.next')", "setup-next-button", false)
+    </form>
+</body>
+</html>

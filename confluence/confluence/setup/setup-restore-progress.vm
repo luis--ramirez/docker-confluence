@@ -1,0 +1,19 @@
+<html>
+    <head>
+        <title>$action.getText("setup.restore.progress")</title>
+    </head>
+
+    <body>
+        #parse ("/setup/analytics-data.vm")
+        #parse ("/setup/setup-button.vm")
+        <br/>
+        #set ($package = 'setup/')
+        #set ($nextButton = 'nextButton')
+        #parse ("/admin/longrunningtask-common.vm")
+
+        <form action="finishsetup.action" method="post">
+            #set( $isDisbale = $action.task && !$action.task.complete)
+            #setupSubmitButton("nextButton", "", "$action.getText('setup.next')", "", $isDisbale)
+        </form>
+    </body>
+</html>

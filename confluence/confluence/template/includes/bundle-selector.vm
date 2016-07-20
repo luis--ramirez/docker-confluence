@@ -1,0 +1,35 @@
+## We don't have soy templates in the early stages of the setup
+## So let's use good old underscore templates.
+<script type="text/template" id="bundle-selector-template">
+    <div class="confluence-setup-choice-cell" bundle-id="<%= plugin.key %>">
+        <img class="plugin-enabled-icon" src="<%= AJS.contextPath() %>/setup/images/icon_setup_multiple_choice_enabled_24.png"/>
+        <img class="plugin-disabled-icon" src="<%= AJS.contextPath() %>/setup/images/icon_setup_multiple_choice_disabled_24.png"/>
+
+        <div class="plugin-info">
+            <img src="<%= AJS.contextPath() %>/setup/images/<%= plugin.logo %>" class="confluence-setup-product-bundle-logo">
+            <p class="confluence-setup-choice-box-description"><%= plugin.description %></p>
+
+            <div class="license-form"></div>
+        </div>
+    </div>
+</script>
+
+<script type="text/template" id="loading-error-template">
+    <div class='error'>$action.getText('setup.selectbundle.loading-error')</div>
+</script>
+
+## When hasLicenseExpander is true the selector will expand with license form when select
+#macro (renderBundleSelector $bindToForm $selectedPluginKeysElementId $hasLicenseExpander)
+<div id="bundle-selector-container" class="#if($hasLicenseExpander)license-expander#end"
+     data-bind-form="$bindToForm" data-selected-plugin-keys-id="$selectedPluginKeysElementId">
+    <div id="bundle-selector" class="bundle-selector">
+        <div class="loading-outer">
+            <div class="loading">
+                <div class="aui-icon-wait loading-inner">$action.getText('setup.selectbundle.loading')</div>
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" name="pluginKeys" id="pluginKeys">
+</div>
+#end

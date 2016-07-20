@@ -1,0 +1,14 @@
+<html>
+	<head>
+		<title>$action.getText("setup.programmatic.title")</title>
+	</head>
+
+	<body>
+        #parse ("/setup/analytics-data.vm")
+        <style media="screen" type="text/css">
+            div.aui-page-panel-content {
+                text-align: center;
+            }
+        </style>
+	</body>
+</html>

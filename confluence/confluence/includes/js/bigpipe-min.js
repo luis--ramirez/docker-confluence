@@ -1,0 +1,2 @@
+require([],function(){});
+(function(){var b={},d={};window.BigPipe={pageletArrive:function(a,c){(b[a]||[]).forEach(function(b){try{b(null,c)}catch(d){AJS.warn(a+" pagelet handler choked during callback",d)}});d[a]=[null,c];delete b[a]},claimPagelet:function(a,c){if(d[a])return c.apply(null,d[a]);b[a]||(b[a]=[]);b[a].push(c)},setup:function(a,c){c&&$("#macro-"+a+" .default-macro-spinner").spin();BigPipe.claimPagelet("macro-"+a,function(b,d){c&&$("#macro-"+a+" .default-macro-spinner").spinStop();$("div#macro-"+a).replaceWith(d.content)})}}})();

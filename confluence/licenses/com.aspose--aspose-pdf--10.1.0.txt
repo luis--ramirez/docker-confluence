@@ -1,0 +1,55 @@
+Notices and Licenses required for redistribution of Aspose.Pdf library
+
+TABLE OF CONTENTS
+
+1. Aspose copyright notice
+2. Thirdparty licenses
+
+
+NOTICES AND LICENSES
+
+1. Aspose copyright notice
+
+Copyright (c) 2001-2015 Aspose Pty Ltd. All Rights Reserved.
+
+http://www.aspose.com/
+
+This product licensed (http://www.aspose.com/corporate/purchase/end-user-license-agreement.aspx) 
+under the terms of the Aspose End User Agreement.
+
+___________________________________________________________________________________________________
+
+2. Thirdparty licenses
+
+2.1. This product includes software(s):
+
+a) Some files from 'Mono Class Libraries' were ported from C# to Java and included to this library 
+without major changes. The 'Mono Class Libraries' developed by 'Mono Project' (http://mono-project.com/)
+and licensed (http://www.mono-project.com/FAQ:_Licensing) under the terms of the MIT X11 license.
+
+b) 'Retrotranslator runtime and backport classes' embedded into jars designed for JDK1.4 (file names
+with suffix -jdk14). The 'Retrotranslator' developed by 'Taras Puchko' (http://retrotranslator.sourceforge.net) 
+and licensed (http://retrotranslator.sourceforge.net/#license) under the terms of the BSD-like license.
+
+c) 'Microsoft Standard CMYK Profile' (file name 'rswop.icm') included to Aspose.MS 'System.Drawing' module without
+changes. The 'Microsoft Standard CMYK Profile' developed by 'Microsoft Corporation' (http://microsoft.com) and
+licensed (http://msdn.microsoft.com/en-us/gg487391.aspx) under the MICROSOFT SOFTWARE LICENSE TERMS.
+
+d) 'sRGB v4 ICC preference profile' (file name 'sRGB_v4_ICC_preference_displayclass.icc') included to
+Aspose.MS 'System.Drawing' module without changes. The 'sRGB v4 ICC preference profile' supported by
+'International Color Consortium' (http://www.color.org) and licensed (http://www.color.org/srgbprofiles.xalter#v4pref)
+under the terms of the MIT X11 (custom version) license.
+
+2.2. Dependencies of this project:
+
+a) Aspose.MS 'System.Security' module depends from the 'Bouncy Castle Crypto APIs' binaries (bcprov-jdk15on-151.jar
+or bcprov-jdk14-151.jar for Java 1.4). The Bouncy Castle Crypto package is a Java implementation of 
+cryptographic algorithms. The 'Bouncy Castle Crypto APIs' developed by 'Legion of the Bouncy Castle Inc.' 
+(http://www.bouncycastle.org/java.html) and licensed (http://www.bouncycastle.org/licence.html) 
+under the terms of the MIT license.
+
+2.3. Transitive dependencies of this project:
+- no dependencies
+___________________________________________________________________________________________________
+
+Date Revised: January 13, 2015

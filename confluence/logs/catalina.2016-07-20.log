@@ -1,0 +1,10 @@
+20-Jul-2016 22:11:12.856 WARNING [main] org.apache.tomcat.util.digester.SetPropertiesRule.begin [SetPropertiesRule]{Server} Setting property 'debug' to '0' did not find a matching property.
+20-Jul-2016 22:11:13.071 WARNING [main] org.apache.catalina.startup.SetAllPropertiesRule.begin [SetAllPropertiesRule]{Server/Service/Connector} Setting property 'debug' to '0' did not find a matching property.
+20-Jul-2016 22:11:13.101 WARNING [main] org.apache.tomcat.util.digester.SetPropertiesRule.begin [SetPropertiesRule]{Server/Service/Engine} Setting property 'debug' to '0' did not find a matching property.
+20-Jul-2016 22:11:13.115 WARNING [main] org.apache.tomcat.util.digester.SetPropertiesRule.begin [SetPropertiesRule]{Server/Service/Engine/Host} Setting property 'debug' to '0' did not find a matching property.
+20-Jul-2016 22:11:13.248 WARNING [main] org.apache.tomcat.util.digester.SetPropertiesRule.begin [SetPropertiesRule]{Server/Service/Engine/Host/Context} Setting property 'debug' to '0' did not find a matching property.
+20-Jul-2016 22:11:14.034 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-nio-8090"]
+20-Jul-2016 22:11:14.094 INFO [main] org.apache.tomcat.util.net.NioSelectorPool.getSharedSelector Using a shared selector for servlet write/read
+20-Jul-2016 22:11:14.119 INFO [main] org.apache.catalina.startup.Catalina.load Initialization processed in 1599 ms
+20-Jul-2016 22:11:14.145 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service Tomcat-Standalone
+20-Jul-2016 22:11:14.146 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet Engine: Apache Tomcat/8.0.36

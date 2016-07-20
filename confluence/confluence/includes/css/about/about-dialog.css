@@ -1,0 +1,7 @@
+.main-about-confluence-logo {
+    float: right;
+}
+
+.main-about-confluence-logo+h2 {
+    margin-top:0;
+}

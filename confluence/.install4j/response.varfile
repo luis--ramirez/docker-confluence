@@ -1,0 +1,11 @@
+#install4j response file for Confluence 5.10.2
+#Wed Jul 20 22:11:09 UTC 2016
+rmiPort$Long=8000
+app.install.service$Boolean=false
+existingInstallationDir=/opt/Confluence
+sys.confirmedUpdateInstallationString=false
+sys.languageId=en
+sys.installationDir=/opt/atlassian/confluence
+app.confHome=/var/atlassian/application-data/confluence
+httpPort$Long=8090
+portChoice=default

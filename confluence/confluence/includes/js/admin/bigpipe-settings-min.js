@@ -1,0 +1,1 @@
+require(["jquery"],function(a){a(document).ready(function(){a("a[name=bpFormButton]").each(function(d,c){var b=a(c);b.click(function(a){a.preventDefault();b.parent("form").submit()})})})});

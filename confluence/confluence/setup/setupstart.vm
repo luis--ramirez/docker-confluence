@@ -1,0 +1,31 @@
+<html>
+<head>
+    <title>$action.getText("setup.start.title")</title>
+    $webResourceManager.requireResourcesForContext("setup.setup-select-install-type")
+</head>
+
+<body>
+    #parse ("/setup/analytics-data.vm")
+    #parse ("/setup/setup-button.vm")
+    <content tag="header-actioncontent">
+        <div class="locale-switcher">
+            <div class="locale-flags">
+                #set ($installedLanguages = $action.getInstalledLanguages())
+
+                #foreach ($locale in $installedLanguages)
+                    ## Only show flags for those except the current locale
+                    #if ($action.getLocale().toString() != $locale.getName())
+                        <a id="$locale.getName()" href="$req.contextPath/setup/selectglobaldefaultlocale.action?globalDefaultLocale=$locale.getName()">$action.getLanguageManager().getDisplayName($locale)</a>
+                    #end
+                #end
+            </div>
+        </div>
+    </content>
+
+    <form method="POST" action="dosetupstart.action" name="startform" class="aui">
+        <div class="aui-group setup-start-group">
+            #parse("/setup/setupstartform.vm")
+        </div>
+    </form>
+</body>
+</html>

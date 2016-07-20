@@ -1,0 +1,686 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.atlassian.confluence</groupId>
+        <artifactId>confluence-project</artifactId>
+        <version>5.10.2</version>
+        <relativePath>../..</relativePath>
+    </parent>
+
+    <artifactId>confluence-webapp</artifactId>
+    <packaging>war</packaging>
+
+    <name>Confluence Webapp</name>
+
+    <dependencies>
+        <!-- Spring container dependencies -->
+        <!--
+        "compile" scope here, but "provided" in confluence-core/confluence
+        so that noone picks them up while depending on confluence as "provided"
+        -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-hibernate2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+        </dependency>
+        <!-- END OF Spring container dependencies -->
+
+
+        <dependency>
+            <groupId>com.atlassian.plugins</groupId>
+            <artifactId>atlassian-plugins-framework-bundles</artifactId>
+            <type>zip</type>
+            <classifier>${confluence.project.plugins.spring.classifier}</classifier>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.confluence</groupId>
+            <artifactId>confluence</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.confluence</groupId>
+            <artifactId>confluence-spring-overrides</artifactId>
+            <version>${project.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.confluence</groupId>
+            <artifactId>confluence-bundled-plugins-setup-library</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+            <scope>runtime</scope><!-- todo CONFDEV-9333 why not compile? -->
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.confluence</groupId>
+            <artifactId>confluence-bundled-plugins-library</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+            <scope>runtime</scope><!-- todo CONFDEV-9333 why not compile? -->
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.confluence.cache</groupId>
+            <artifactId>confluence-cache-ehcache</artifactId>
+            <version>${project.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.confluence.cache</groupId>
+            <artifactId>confluence-cache-hazelcast</artifactId>
+            <version>${project.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian</groupId>
+            <artifactId>atlassian-localhost</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.tenancy</groupId>
+            <artifactId>atlassian-tenancy-api</artifactId>
+        </dependency>
+
+        <!-- Logging-as-a-Service -->
+        <dependency>
+            <groupId>com.atlassian</groupId>
+            <artifactId>atlassian-logging</artifactId>
+            <version>2.15</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+            <version>${httpcomponents.httpcore.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+
+        <!-- bundled JDBC drivers -->
+        <dependency>
+            <groupId>net.sourceforge.jtds</groupId>
+            <artifactId>jtds</artifactId>
+            <version>1.2.2</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
+
+        <!-- Platform 2.7 requirement -->
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+        </dependency>
+
+        <!-- Platform requirement (must be in system bundle so framework-bundles spring-context can wire to it) -->
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- SAL Api -->
+        <dependency>
+            <groupId>com.atlassian.sal</groupId>
+            <artifactId>sal-api</artifactId>
+        </dependency>
+
+        <!-- AppLinks -->
+        <dependency>
+            <groupId>com.atlassian.applinks</groupId>
+            <artifactId>applinks-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.applinks</groupId>
+            <artifactId>applinks-spi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.applinks</groupId>
+            <artifactId>applinks-host</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.atlassian.velocity.htmlsafe</groupId>
+            <artifactId>velocity-htmlsafe</artifactId>
+        </dependency>
+
+        <!-- JSON (Required by applinks) -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+        </dependency>
+
+        <!-- JSON Simple (Required by atlassian-connect) -->
+        <dependency>
+            <groupId>com.googlecode.json-simple </groupId>
+            <artifactId>json-simple</artifactId>
+            <version>1.1.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- Remote API Plugin -->
+        <dependency>
+            <groupId>com.atlassian.confluence.plugins</groupId>
+            <artifactId>confluence-rpc-plugin</artifactId>
+            <version>${project.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+
+        <!-- test dependencies required by Jetty test harness -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>jetty</artifactId>
+            <version>6.1.5</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>jetty-management</artifactId>
+            <version>6.1.5</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>javax.servlet.jsp-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-el</groupId>
+            <artifactId>commons-el</artifactId>
+            <version>1.0</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <!-- jcl-over-slf4j instead -->
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>rhino</groupId>
+            <artifactId>js</artifactId>
+            <version>1.7R2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- CONFDEV-19196 export this for slow plugins who are still upgrading from guava 10 to 11 -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.compatibility.version}</version>
+            <scope>runtime</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.ow2.asm</groupId>
+                    <artifactId>asm-all</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>confluence</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>confluence-init.properties</exclude>
+                </excludes>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <!-- Install npm modules first -->
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <executions>
+                    <execution>
+                        <id>install-npm-modules</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <executable>${npm.executable}</executable>
+                    <arguments>
+                        <argument>run</argument>
+                        <argument>install-js-reporting</argument>
+                    </arguments>
+                    <skip>${npm.skip}</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.7</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.basedir}/src/main/webapp/includes/js/dist/</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>../../node_modules/@atlassian/atlassian-js-reporting/src/instrumenters/</directory>
+                                    <includes>
+                                        <include>*.js</include>
+                                    </includes>
+                                </resource>
+                                <resource>
+                                    <directory>../../node_modules/@atlassian/atlassian-js-reporting/src</directory>
+                                    <includes>
+                                        <include>*.js</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.carrot2.labs</groupId>
+                <artifactId>smartsprites-maven-plugin</artifactId>
+                <version>1.0</version>
+                <configuration>
+                    <rootDirPath>${project.basedir}/src/main/webapp</rootDirPath>
+                    <outputDirPath>${project.build.directory}/confluence</outputDirPath>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>spritify</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>spritify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.samaxes.maven</groupId>
+                <artifactId>minify-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>minify-core</id>
+                        <configuration>
+                            <jsSourceIncludes>
+                                <jsSourceInclude>**/*.js</jsSourceInclude>
+                            </jsSourceIncludes>
+                            <cssSourceIncludes>
+                                <cssSourceInclude>**/*.css</cssSourceInclude>
+                            </cssSourceIncludes>
+                            <cssSourceDir>.</cssSourceDir>
+                            <jsSourceDir>.</jsSourceDir>
+                            <webappSourceDir>${basedir}/src/main/webapp/includes</webappSourceDir>
+                            <webappTargetDir>${project.build.directory}/confluence/includes</webappTargetDir>
+                            <jsEngine>CLOSURE</jsEngine>
+                            <suffix>-min</suffix>
+                            <skipMerge>true</skipMerge>
+                            <closureLanguage>ECMASCRIPT5</closureLanguage>
+                        </configuration>
+                        <goals>
+                            <goal>minify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.atlassian.lesscss</groupId>
+                <artifactId>lesscss-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <!--
+                         Generates compiled less files using a target suffix of .css
+                         This is a legacy hangover from the early phases of lesscss usage in Confluence.
+                         It's risky to remove this without knowing for sure that nothing is assuming these .css target
+                         files will be present.
+                        -->
+                        <id>compile-less-legacy-suffix</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <suffix>.css</suffix>
+                            <sourceDirectory>${project.basedir}/src/main/webapp</sourceDirectory>
+                            <outputDirectory>${project.build.directory}/confluence</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <!--
+                         Generates compiled less files with the default target suffix of .less.css
+                         The lesscss runtime web resource transformer will pick these up at runtime and use them in
+                         preference to recompiling the less files
+                        -->
+                        <id>compile-less</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <sourceDirectory>${project.basedir}/src/main/webapp</sourceDirectory>
+                            <outputDirectory>${project.build.directory}/confluence</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>ban_unwanted_dependencies</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <phase>validate</phase>
+                        <configuration>
+                            <rules>
+                                <bannedDependencies>
+                                    <searchTransitive>true</searchTransitive>
+                                    <message>The web-app should not depend on the Confluence API classes</message>
+                                    <excludes>
+                                        <exclude>com.atlassian.confluence.plugins:confluence-api</exclude>
+                                    </excludes>
+                                </bannedDependencies>
+                                <bannedDependencies>
+                                    <searchTransitive>true</searchTransitive>
+                                    <message>Do not put spring-scanner-runtime or annotation in system bundle. They should be deployed as plugins. See CONFDEV-39702, SCANNER-17.</message>
+                                    <excludes>
+                                        <exclude>com.atlassian.plugin:atlassian-spring-scanner-runtime</exclude>
+                                        <exclude>com.atlassian.plugin:atlassian-spring-scanner-annotation</exclude>
+                                    </excludes>
+                                </bannedDependencies>
+                            </rules>
+                            <fail>true</fail>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <!-- compression will just slow the process down -->
+                        <compress>false</compress>
+                    </archive>
+                    <overlays>
+                        <overlay>
+                            <groupId>com.atlassian.plugins</groupId>
+                            <artifactId>atlassian-plugins-framework-bundles</artifactId>
+                            <type>zip</type>
+                            <classifier>${confluence.project.plugins.spring.classifier}</classifier>
+                            <targetPath>WEB-INF/osgi-framework-bundles</targetPath>
+                        </overlay>
+                    </overlays>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>download-cq-obr</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.atlassian.confluence.plugins</groupId>
+                                    <artifactId>confluence-questions</artifactId>
+                                    <version>${bundled.confluence-question.version}</version>
+                                    <type>obr</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/others</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>download-tc-obr</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.atlassian.confluence.extra.team-calendars</groupId>
+                                    <artifactId>team-calendars</artifactId>
+                                    <version>${bundled.team-calendar.version}</version>
+                                    <type>obr</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/others</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>change_default_users_group</id>
+            <properties>
+                <confluence.ondemand.default.user.group>a-modified-default-users-group</confluence.ondemand.default.user.group>
+            </properties>
+        </profile>
+
+        <profile>
+            <!-- See https://bamboo.extranet.atlassian.com/browse/RELENG-CONFSUCCESS.  This
+                should be replaced with properties passed in from the build. -->
+            <id>devspeed-build</id>
+            <properties>
+                <http.port>47382</http.port>
+                <cargo.rmi.port>47383</cargo.rmi.port>
+                <cargo.tomcat.ajp.port>47384</cargo.tomcat.ajp.port>
+            </properties>
+        </profile>
+        <profile>
+            <id>debug</id>
+            <properties>
+                <jvm.args>${jvm.args.debug}</jvm.args>
+            </properties>
+        </profile>
+        <profile>
+            <id>jetty-exploded-war</id>
+            <build>
+                <defaultGoal>org.mortbay.jetty:maven-jetty-plugin:6.1.12.rc5:run-exploded</defaultGoal>
+                <plugins>
+                    <plugin>
+                        <groupId>org.mortbay.jetty</groupId>
+                        <artifactId>maven-jetty-plugin</artifactId>
+                        <version>6.1.12.rc5</version>
+                        <configuration>
+                            <contextPath>${webappContext}</contextPath>
+                            <scanIntervalSeconds>10</scanIntervalSeconds>
+                            <systemProperties>
+                                <systemProperty>
+                                    <name>confluence.home</name>
+                                    <value>${project.build.directory}/confluence-home</value>
+                                </systemProperty>
+                                <systemProperty>
+                                    <name>XX:MaxPermSize</name>
+                                    <value>256M</value>
+                                </systemProperty>
+                                <systemProperty>
+                                    <name>Xmx</name>
+                                    <value>256M</value>
+                                </systemProperty>
+                            </systemProperties>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skipTests>true</skipTests>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+            <properties>
+                <http.port>8080</http.port>
+                <jetty.port>${http.port}</jetty.port>
+            </properties>
+        </profile>
+        <profile>
+            <id>third-party-licensing</id>
+            <activation>
+                <property>
+                    <name>enable.third.party.licensing</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.atlassian.maven.plugins</groupId>
+                        <artifactId>maven-licensing-bom-processor-plugin</artifactId>
+                        <version>0.3</version>
+                        <executions>
+                            <execution>
+                                <id>generate-sources</id>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>generate</goal>
+                                </goals>
+                                <configuration>
+                                    <bom>${thirdpartylicensing.bom}</bom>
+                                    <template>src/main/resources/lgplTemplate.soy</template>
+                                    <templateName>Confluence.Build.Generate.licenseTemplates</templateName>
+                                    <output>${project.build.directory}/confluence/about/lgpl-libs.vm</output>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>checkTestTearDown</id>
+            <properties>
+                <checkTestTearDown>true</checkTestTearDown>
+            </properties>
+        </profile>
+        <profile>
+            <id>disable-war</id>
+            <activation>
+                <property>
+                    <name>disable.war</name>
+                </property>
+            </activation>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-war-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>default-war</id>
+                                    <phase>none</phase>
+                                </execution>
+                            </executions>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-install-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>default-install</id>
+                                    <phase>none</phase>
+                                </execution>
+                            </executions>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+    </profiles>
+
+    <properties>
+        <!-- This should use ${project.build.directory} instead of target, but Maven < 2.0.9 fails to interpolate. -->
+        <pluginBundleDirectory>target/bundled-plugins</pluginBundleDirectory>
+        <cargo.wait>false</cargo.wait>
+        <http.port>47362</http.port>
+        <controller.port>47363</controller.port>
+        <ajp.port>47364</ajp.port>
+        <wait.after.setup>false</wait.after.setup>
+        <jvm.args.extra>-Xms512m -Dconfluence.invalidate.rpc.sessions=true -Dconfluence.disable.mailpolling=true -Dconfluence.index.manager.lock.timeout=5</jvm.args.extra>
+        <jvm.args.xmx>1g</jvm.args.xmx>
+        <!-- MaxPermSize has been 128M for a long time.  Increased, possibly temporarily, to 192M for CONF-18277 -->
+        <jvm.args.maxpermsize>256m</jvm.args.maxpermsize>
+        <jvm.args>-XX:MaxPermSize=${jvm.args.maxpermsize} -Xmx${jvm.args.xmx} -Djava.awt.headless=true ${jvm.args.extra} -XX:+HeapDumpOnOutOfMemoryError</jvm.args>
+        <jvm.args.devmode>-Dconfluence.devmode=true -Datlassian.dev.mode=true</jvm.args.devmode>
+        <jvm.args.debug>-XX:MaxPermSize=${jvm.args.maxpermsize} -Xmx${jvm.args.xmx} -Djava.awt.headless=true ${jvm.args.extra} -XX:+HeapDumpOnOutOfMemoryError -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=${jvm.debug.suspend},address=5005 ${jvm.args.devmode}</jvm.args.debug>
+
+        <webappContext>confluence</webappContext>
+        <baseurl>http://localhost:${http.port}/${webappContext}</baseurl>
+        <confluence.log.file.handlers>false</confluence.log.file.handlers>
+        <clover.distributed.coverage>OFF</clover.distributed.coverage>
+        <clover.server>false</clover.server>
+        <confluence.home>${project.build.directory}/confluence-home</confluence.home>
+        <confluence.ondemand.default.user.group>confluence-users</confluence.ondemand.default.user.group>
+    </properties>
+</project>

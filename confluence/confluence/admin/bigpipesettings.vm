@@ -1,0 +1,61 @@
+#* @vtlvariable name="action" type="com.atlassian.confluence.admin.actions.BigPipeConfigurationAction" *#
+<html>
+<head>
+    <title>$action.getText("bigpipe.settings")</title>
+    <content tag="selectedWebItem">quickpipesettings</content>
+</head>
+
+<body>
+    #requireResource("confluence.web.resources:aui-forms")
+    #requireResource("confluence.web.resources:bigpipe-settings")
+    #parse ( "/template/includes/actionerrors.vm" )
+
+    ##Plugins Settings
+    <h2>
+        $action.getText("bigpipe.macros.field.name")
+        #if($systemAdmin)
+            <a href="$req.contextPath/admin/doenableallquickpipesettings.action?#url_xsrfToken()"
+                     class="edit-link aui-button">
+                <span class="aui-icon aui-icon-small aui-iconfont-add"></span>
+                $action.getText("bigpipe.enable.all")
+            </a>
+            <a href="$req.contextPath/admin/dosettodefaultquickpipesettings.action?#url_xsrfToken()"
+                     class="edit-link aui-button">
+                <span class="aui-icon aui-icon-small aui-iconfont-star"></span>
+                $action.getText("bigpipe.settodefault.all")
+            </a>
+        #end
+    </h2>
+
+    <table width="90%" class="grid">
+        <tr>
+            <th align="left">$action.getText("raise.support.request.plugin.name")</th>
+            <th>$action.getText("bigpipe.enabled")</th>
+        </tr>
+        #foreach ($macro in $action.macros)
+            <tr #if ($velocityCount%2 == 0) bgcolor="#f9f9f9" #end>
+                <td align="left">${macro.getPlugin().getName()}:${macro.name}</td>
+                <td align="center">
+                    <form method="POST" class="aui long-label" action="viewquickpipesettings.action">
+                        #form_xsrfToken()
+                        #if ($action.isBigPipeEnabled($macro))
+                            <a href="#" name="bpFormButton">Disable</a>
+                        #else
+                            <a href="#" name="bpFormButton">Enable</a>
+                        #end
+                        <input type="hidden" name="pluginKey" value="$macro.pluginKey">
+                        <input type="hidden" name="macroName" value="$macro.name">
+                        <input type="hidden" name="macroDisabled" value="$action.isBigPipeEnabled($macro)">
+                    </form>
+                </td>
+            </tr>
+        #end
+    </table>
+
+##    <div align="center">
+##        #parse ( "/admin/systeminfo.vm" )
+##    </div>
+
+    #parse("/breadcrumbs.vm")
+</body>
+</html>
