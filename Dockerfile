@@ -1,19 +1,16 @@
-FROM ubuntu:16.04
-
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get autoclean && \
-    apt-get clean && \
-    apt-get autoremove -y
+FROM debian:8.5
 
 COPY ./confluence /opt/atlassian/confluence
 
-EXPOSE 8090 8000
+RUN mkdir -p /var/atlassian/application-data/confluence && \
+    groupadd confluence && \
+    useradd -g confluence confluence && \
+    chown -R confluence:confluence /opt/atlassian/confluence /var/atlassian/application-data/confluence
 
 VOLUME ["/opt/atlassian/confluence", "/var/atlassian/application-data/confluence"]
 
-RUN groupadd confluence && \
-    useradd -g confluence confluence
+EXPOSE 8090 8000
 
-CMD chown -R confluence:confluence /opt/atlassian/confluence /var/atlassian/application-data/confluence && \
-    ./opt/atlassian/confluence/bin/start-confluence.sh -fg
+USER confluence
+
+CMD ./opt/atlassian/confluence/bin/start-confluence.sh -fg
